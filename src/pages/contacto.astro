@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MarcoMobile from "../components/MarcoMobile.astro";
+
+import ListContacSection from "../components/section/ListContacSection.astro";
+import Boton from "../components/dynamic/Boton.astro";
+import ItemList from "../components/ui/ItemList.astro";
+---
+
+<Layout>
+  <MarcoMobile>
+    <section
+      class="w-full h-full bg-white border-2 rounded-3xl bg-cover flex justify-center items-center-safe"
+    >
+      <Boton color="bg-green-600" icon="fas fa-plus" link="/contactoAdd" />
+      <Boton
+        color="bg-red-600"
+        icon="fas fa-arrow-left"
+        link="http://localhost:4321"
+      />
+    </section>
+  </MarcoMobile>
+</Layout>
