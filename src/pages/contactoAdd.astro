@@ -83,6 +83,10 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
   const addPhotoBtn = document.getElementById("addPhotoBtn");
   const notificacion = document.getElementById("notificacion");
 
+  const name = document.getElementById("name");
+  const email = document.getElementById("email");
+  const phone = document.getElementById("phone");
+
 
   // Mostrar imagen al seleccionar archivo
   photoInput.addEventListener("change", (e) => {
@@ -125,6 +129,12 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
     photoIcon.style.display = "block";
     const oldImage = photoPreview.querySelector("img");
     if (oldImage) oldImage.remove();
+
+    const nuevoContacto = { name: name.value, email: email.value, phone: phone.value, photo: photoIcon.style.display === "none" ? photoPreview.querySelector("img").src : ""  };
+
+    const contactos = JSON.parse(localStorage.getItem("contactos")) || [];
+    contactos.push(nuevoContacto);
+    localStorage.setItem("contactos", JSON.stringify(contactos));
   });
 </script>
 

@@ -1,23 +1,69 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import MarcoMobile from "../components/MarcoMobile.astro";
-
-import ListContacSection from "../components/section/ListContacSection.astro";
 import Boton from "../components/dynamic/Boton.astro";
-import ItemList from "../components/ui/ItemList.astro";
 ---
 
 <Layout>
   <MarcoMobile>
-    <section
-      class="w-full h-full bg-white border-2  border-gray-300 rounded-3xl bg-cover flex justify-center items-center-safe"
-    >
-      <Boton color="bg-green-500" icon="fas fa-plus" link="/contactoAdd" />
-      <Boton
-        color="bg-red-500"
-        icon="fas fa-arrow-left"
-        link="http://localhost:4321"
-      />
+    <section class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover items-center-safe">
+      <div class="flex justify-center items-center gap-4 p-4">
+        <Boton color="bg-green-500" icon="fas fa-plus" link="/contactoAdd" />
+        <Boton color="bg-red-500" icon="fas fa-arrow-left" link="http://localhost:4321"/>
+      </div>
+
+      <div class="min-h-screen p-4">
+        <h1 class="text-2xl font-bold mb-4">Teléfono</h1>
+
+        <!-- Lista de contactos -->
+        <div id="contactList" class="space-y-2 overflow-y-auto max-h-[calc(100vh-150px)]">
+          <!-- Los contactos se insertarán dinámicamente con JS -->
+        </div>
+      </div>
     </section>
   </MarcoMobile>
+
+  <!-- Script para insertar contactos desde localStorage -->
+<script>
+  const listaContenedor = document.getElementById("contactList");
+
+  function crearContactoCard(contacto) {
+    // Si no hay foto, usar avatar por defecto
+    const fotoFinal = contacto.photo && contacto.photo.trim() !== ""
+      ? contacto.photo
+      : "https://cdn-icons-png.flaticon.com/512/6522/6522581.png";
+
+    const nombreFinal = contacto.name || "Sin Nombre";
+
+    const div = document.createElement("div");
+    div.className = "flex items-center justify-between bg-gray-100 rounded-lg p-3";
+
+    div.innerHTML = `
+      <div class="flex items-center space-x-3">
+        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-400 text-white text-lg font-bold overflow-hidden">
+          <img src="${fotoFinal}" class="w-full h-full object-cover rounded-full" alt="Foto de ${nombreFinal}" />
+        </div>
+        <span class="text-base">${nombreFinal}</span>
+      </div>
+      <div class="flex space-x-2">
+        <button class="p-2 rounded-full hover:bg-gray-800">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6-6 3.536 3.536-6 6H9v-3.536z" />
+          </svg>
+        </button>
+        <button class="p-2 rounded-full hover:bg-gray-800">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4m-4 0a1 1 0 00-1 1v1h6V4a1 1 0 00-1-1m-4 0h4" />
+          </svg>
+        </button>
+      </div>
+    `;
+
+    listaContenedor.appendChild(div);
+  }
+
+  const contactosGuardados = JSON.parse(localStorage.getItem("contactos")) || [];
+  console.log("CARGADOS:", contactosGuardados);
+  contactosGuardados.forEach(crearContactoCard);
+</script>
 </Layout>
