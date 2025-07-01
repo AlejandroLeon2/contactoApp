@@ -1,17 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import MarcoMobile from "../components/MarcoMobile.astro";
-
-import Boton from "../components/dynamic/Boton.astro";
-import Notificacion from "../components/dynamic/Notificacion.astro";
+import Boton from "../components/Boton.astro"
 ---
 
 <Layout>
-  <MarcoMobile>
-    <section
-      class="w-full h-full bg-[url('src/assets/fondo.jpg')] bg-cover flex justify-center items-center-safe"
-    >
-      <Boton color="bg-green-500" icon="fas fa-phone" link="/contacto" />
-    </section>
-  </MarcoMobile>
+    <MarcoMobile>
+        <section class="w-full h-full bg-[url('src/assets/fondo.jpg')] bg-cover flex justify-center items-center-safe">
+            <Boton color="bg-green-500" icon="fas fa-phone" link="/contacto" />
+        </section>
+    </MarcoMobile>
 </Layout>

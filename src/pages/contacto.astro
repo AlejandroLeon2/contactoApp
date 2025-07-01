@@ -1,23 +1,48 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import MarcoMobile from "../components/MarcoMobile.astro";
-
-import ListContacSection from "../components/section/ListContacSection.astro";
-import Boton from "../components/dynamic/Boton.astro";
-import ItemList from "../components/ui/ItemList.astro";
+import Boton from "../components/Boton.astro";
+import BarraBusqueda from "../components/BarraBusqueda.astro";
 ---
 
 <Layout>
   <MarcoMobile>
-    <section
-      class="w-full h-full bg-white border-2  border-gray-300 rounded-3xl bg-cover flex justify-center items-center-safe"
-    >
-      <Boton color="bg-green-500" icon="fas fa-plus" link="/contactoAdd" />
-      <Boton
-        color="bg-red-500"
-        icon="fas fa-arrow-left"
-        link="http://localhost:4321"
-      />
+    <section class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover flex flex-col relative p-4 gap-4">
+
+      <!-- titulo -->
+      <div class="w-full flex items-center gap-2">
+        <Boton color="bg-red-500" icon="fas fa-arrow-left" link="/" />
+        <BarraBusqueda />
+      </div>
+      <!-- titulo -->
+
+      <!-- Lista de Contacto -->
+      <div>
+        <h2 class="text-2xl font-semibold text-center mb-4 mt-4">Contactos</h2>
+        <ul id="lista-contactos" class="space-y-2 mt-4"></ul>
+      </div>
+      <!-- Lista de Contacto -->
+
+      <!-- boton -->
+      <Boton color="bg-green-500" icon="fas fa-plus" link="/agregarContacto" clasesExtra="shadow-xl shadow-gray-500 p-8 rounded-md absolute bottom-6 right-6" />
+      <!-- boton -->
     </section>
+
+    <script>
+      const lista = document.getElementById("lista-contactos");
+      const contactos = JSON.parse(localStorage.getItem("contactos") || "[]");
+
+      contactos.forEach(c => {
+        const li = document.createElement("li");
+        li.className = "p-4 bg-gray-100 rounded-lg border border-gray-300";
+        li.innerHTML = `
+          <p class="font-semibold">${c.name}</p>
+          <p class="text-sm text-gray-600">${c.email}</p>
+          <p class="text-sm text-gray-600">${c.phone}</p>
+        `;
+        lista.appendChild(li);
+      });
+    </script>
   </MarcoMobile>
 </Layout>
+
