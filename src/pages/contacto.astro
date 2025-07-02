@@ -8,41 +8,75 @@ import BarraBusqueda from "../components/BarraBusqueda.astro";
 <Layout>
   <MarcoMobile>
     <section class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover flex flex-col relative p-4 gap-4">
-
       <!-- titulo -->
       <div class="w-full flex items-center gap-2">
         <Boton color="bg-red-500" icon="fas fa-arrow-left" link="/" />
         <BarraBusqueda />
       </div>
-      <!-- titulo -->
 
       <!-- Lista de Contacto -->
       <div>
         <h2 class="text-2xl font-semibold text-center mb-4 mt-4">Contactos</h2>
-        <ul id="lista-contactos" class="space-y-2 mt-4"></ul>
+        <ul id="listaContactos" class="space-y-2 mt-4"></ul>
       </div>
-      <!-- Lista de Contacto -->
 
-      <!-- boton -->
+      <!-- botón agregar -->
       <Boton color="bg-green-500" icon="fas fa-plus" link="/agregarContacto" clasesExtra="shadow-xl shadow-gray-500 p-8 rounded-md absolute bottom-6 right-6" />
-      <!-- boton -->
     </section>
-
-    <script>
-      const lista = document.getElementById("lista-contactos");
-      const contactos = JSON.parse(localStorage.getItem("contactos") || "[]");
-
-      contactos.forEach(c => {
-        const li = document.createElement("li");
-        li.className = "p-4 bg-gray-100 rounded-lg border border-gray-300";
-        li.innerHTML = `
-          <p class="font-semibold">${c.name}</p>
-          <p class="text-sm text-gray-600">${c.email}</p>
-          <p class="text-sm text-gray-600">${c.phone}</p>
-        `;
-        lista.appendChild(li);
-      });
-    </script>
   </MarcoMobile>
-</Layout>
 
+  <script type="module">
+    const listaContactos = document.getElementById("listaContactos");
+
+    function mostrarContactos() {
+      listaContactos.innerHTML = "";
+      const contactos = JSON.parse(localStorage.getItem("contactosJSON")) || [];
+
+      contactos.forEach(contacto => {
+        const li = document.createElement("li");
+        li.className = "p-4 bg-gray-200 rounded-lg shadow-xl flex items-center gap-4";
+
+        li.innerHTML = `
+          <i class="fas fa-user text-black"></i>
+          <div class="contactos flex justify-between items-center w-full" data-id="${contacto.id}">
+            <div class="cajaInfo cursor-pointer">
+              <h3 class="text-lg font-semibold">${contacto.nombres} ${contacto.apellidos}</h3>
+              <p class="info hidden text-gray-600">${contacto.email}</p>
+              <p class="info hidden text-gray-600">${contacto.telefono}</p>
+            </div>
+            <button class="btnEliminar text-red-500 hover:text-red-700 transition-colors cursor-pointer">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        `;
+
+        listaContactos.appendChild(li);
+      });
+    }
+
+    function eliminarContactoPorId(id) {
+      const contactos = JSON.parse(localStorage.getItem("contactosJSON")) || [];
+      const nuevosContactos = contactos.filter(contacto => contacto.id !== id);
+      localStorage.setItem("contactosJSON", JSON.stringify(nuevosContactos));
+      mostrarContactos();
+    }
+
+    listaContactos.addEventListener("click", (e) => {
+      const btn = e.target.closest(".btnEliminar");
+      const caja = e.target.closest(".contactos");
+
+      if (btn) {
+        const divContacto = e.target.closest(".contactos");
+        const id = Number(divContacto.dataset.id);
+        eliminarContactoPorId(id);
+      }
+
+      if (caja) {
+        const infoParrafos = caja.querySelectorAll(".info");
+        infoParrafos.forEach(p => p.classList.toggle("hidden"));
+      }
+    });
+
+    mostrarContactos();
+  </script>
+</Layout>
