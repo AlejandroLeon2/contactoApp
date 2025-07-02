@@ -2,11 +2,16 @@
 import Layout from "../layouts/Layout.astro";
 import MarcoMobile from "../components/MarcoMobile.astro";
 import Boton from "../components/Boton.astro";
+import Notificacion from "../components/Notificacion.astro";
 ---
 
 <Layout >
   <MarcoMobile>
     <section class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover p-6 flex flex-col ">
+      <!-- Notificación -->
+      <Notificacion color="bg-green-500" message="Contacto agregado exitosamente" />
+      <!-- Notificación -->
+
       <!-- Titulo -->
       <div class="flex items-center gap-4 mb-4">
         <Boton color="bg-red-500 w-5 h-5 text-sm" icon="fas fa-arrow-left" link="/contacto" />
@@ -81,6 +86,16 @@ import Boton from "../components/Boton.astro";
       contactos.push(nuevoContacto);
       localStorage.setItem('contactosJSON', JSON.stringify(contactos));
       formulario.reset();
+
+      const notificacion = document.getElementById("notificacion");
+
+      notificacion.classList.remove("opacity-0", "pointer-events-none");
+      notificacion.classList.add("opacity-100");
+
+      setTimeout(() => {
+        notificacion.classList.remove("opacity-100");
+        notificacion.classList.add("opacity-0", "pointer-events-none");
+      }, 3000);
     });
   </script>
 </Layout>

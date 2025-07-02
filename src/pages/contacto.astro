@@ -3,11 +3,16 @@ import Layout from "../layouts/Layout.astro";
 import MarcoMobile from "../components/MarcoMobile.astro";
 import Boton from "../components/Boton.astro";
 import BarraBusqueda from "../components/BarraBusqueda.astro";
+import Notificacion from "../components/Notificacion.astro";
 ---
 
 <Layout>
   <MarcoMobile>
     <section class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover flex flex-col relative p-4 gap-4">
+      <!-- Notificación -->
+      <Notificacion color="bg-red-500" message="Contacto eliminado exitosamente"/>
+      <!-- Notificación -->
+
       <!-- titulo -->
       <div class="w-full flex items-center gap-2">
         <Boton color="bg-red-500" icon="fas fa-arrow-left" link="/" />
@@ -59,6 +64,17 @@ import BarraBusqueda from "../components/BarraBusqueda.astro";
       const nuevosContactos = contactos.filter(contacto => contacto.id !== id);
       localStorage.setItem("contactosJSON", JSON.stringify(nuevosContactos));
       mostrarContactos();
+      mostrarNotificacion();
+    }
+
+    function mostrarNotificacion() {
+      const notificacion = document.getElementById("notificacion");
+      notificacion.classList.remove("opacity-0", "pointer-events-none");
+      notificacion.classList.add("opacity-100");
+      setTimeout(() => {
+        notificacion.classList.remove("opacity-100");
+        notificacion.classList.add("opacity-0", "pointer-events-none");
+      }, 3000);
     }
 
     listaContactos.addEventListener("click", (e) => {
