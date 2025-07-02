@@ -3,7 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import MarcoMobile from "../components/MarcoMobile.astro";
 import Boton from "../components/dynamic/Boton.astro";
 import ListContacSection from "../components/section/ListContacSection.astro";
-import { contactos } from "../data/contactos";
+//import { contactos } from "../data/contactos";
+import SearchBar from "../components/ui/SearchBar.astro";
 ---
 
 <Layout>
@@ -18,13 +19,14 @@ import { contactos } from "../data/contactos";
           link="/contactoAdd"
         />
         <Boton
-          color="bg-red-500 absolute top-1 left-5  "
+          color="bg-red-500 absolute top-4 left-5  "
           icon="fas fa-arrow-left"
           link="http://localhost:4321"
         />
       </div>
 
       <div class="min-h-screen p-5 justify-around">
+        <SearchBar />
         <h1 class="text-2xl font-bold mb-4">Teléfono</h1>
 
         <ListContacSection data="{contactos}" />
@@ -50,7 +52,7 @@ import { contactos } from "../data/contactos";
 
       const li = document.createElement("li");
       li.className =
-        "flex flex-col w-full hijo min-h-15 group shadow bg-white rounded-2xl ";
+        "flex flex-col w-full contacto hijo min-h-15 group shadow bg-white rounded-2xl ";
       li.innerHTML = `
       <div class=" flex items-center gap-4  w-full">
       <img src=${fotoFinal} alt=${nombreFinal} class="rounded-full h-15 p-1" />
@@ -72,7 +74,7 @@ import { contactos } from "../data/contactos";
   <i class="fas fa-pen"></i>
 </a>
  <button
-  class=" w-12 h-12 flex items-center justify-center rounded-full transition shadow"
+  class=" w-12 h-12 eliminar flex items-center justify-center rounded-full transition shadow"
 >
   <i class="fas fa-trash"></i>
 
@@ -87,14 +89,35 @@ import { contactos } from "../data/contactos";
     document
       .getElementById("contactList")
       ?.addEventListener("click", (event) => {
-        // Verifica si el clic fue dentro de un elemento con clase hijo
-        const clickedHijo = event.target.closest(".hijo");
+        const boton = event.target.closest("button.eliminar");
 
+        if (boton) {
+
+          const li = boton.closest("li");
+          const index = boton
+            .closest(".desplegable")
+            ?.querySelector("[data-index]")?.dataset.index;
+
+          const contactos = JSON.parse(localStorage.getItem("contactos")) || [];
+
+          if (!isNaN(index) && index >= 0 && index < contactos.length) {
+            contactos.splice(index, 1);
+            localStorage.setItem("contactos", JSON.stringify(contactos));
+            console.log(`Contacto eliminado en el índice ${index}`);
+
+            li?.remove();
+          }
+        }
+      });
+
+    document
+      .getElementById("contactList")
+      ?.addEventListener("click", (event) => {
+        const clickedHijo = event.target.closest(".hijo");
         if (
           clickedHijo &&
           document.getElementById("contactList")?.contains(clickedHijo)
         ) {
-          // Busca el div.desplegable hijo dentro de ese .hijo
           const desplegable = clickedHijo.querySelector(".desplegable");
           if (desplegable) {
             desplegable.classList.toggle("hidden");
@@ -113,14 +136,11 @@ import { contactos } from "../data/contactos";
 
           if (index >= 0 && index < contactos.length) {
             const contacto = contactos[index];
-
-            const contactoConIndice = {...contacto,index: Number(index)};
+            const contactoConIndice = { ...contacto, index: Number(index) };
 
             localStorage.setItem("actual", JSON.stringify(contactoConIndice));
             console.log("Contacto actual con índice:", contactoConIndice);
-          } else {
-            console.warn("Índice fuera de rango:", index);
-          }
+          } 
         }
       });
 
