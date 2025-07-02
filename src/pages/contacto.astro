@@ -11,7 +11,7 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
 <Layout>
   <MarcoMobile>
     <section
-      class="w-full min-h-full relative bg-white border-2 border-gray-300 rounded-3xl bg-cover items-center-safe"
+      class="w-full min-h-[100svh] relative bg-white border-2 border-gray-300 rounded-3xl bg-cover items-center-safe"
     >
       <div class="flex justify-center items-center gap-4 p-4">
         <Boton
@@ -26,15 +26,14 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
         />
       </div>
 
-      <div class="min-h-screen p-5 justify-around">
+      <div class="p-5 justify-around">
         <SearchBar />
-        <h1 class="text-2xl font-bold mb-4">Teléfono</h1>
 
         <ListContacSection data="{contactos}" />
       </div>
     </section>
     <Notificacion
-      color="bg-red-500"
+      color="bg-red-500 "
       message="¡Contacto eliminado exitosamente!"
     />
   </MarcoMobile>
@@ -57,10 +56,10 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
 
       const li = document.createElement("li");
       li.className =
-        "flex flex-col w-full contacto hijo min-h-15 group shadow bg-white rounded-2xl ";
+        "flex flex-col w-full contacto hijo min-h-15 group shadow bg-white rounded-2xl  justify-center items-center  px-2 pt-2";
       li.innerHTML = `
       <div class=" flex items-center gap-4  w-full">
-      <img src=${fotoFinal} alt=${nombreFinal} class="rounded-full h-15 p-1" />
+      <img src=${fotoFinal} alt=${nombreFinal} class="rounded-full overflow-hidden object-cover h-10  w-12 " />
       <p class="w-full text-xl">${nombreFinal}</p>
       </div>
         <div class="hidden text-black desplegable p-4  flex justify-around items-center h-15 w-full">

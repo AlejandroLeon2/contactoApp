@@ -8,30 +8,35 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
 <Layout>
   <MarcoMobile>
     <section
-      class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover p-6 flex flex-col"
+      class="w-full min-h-[100svh] relative bg-white border-2 border-gray-300 rounded-3xl bg-cover items-center-safe"
     >
       <div class="flex items-center gap-4 mb-4">
         <Boton
-          color="bg-red-500 w-5 h-5 text-sm"
+          color="bg-red-500 w-5 h-5 absolute top-2 left-4 text-sm"
           icon="fas fa-arrow-left"
           link="/contacto"
         />
-        <h2 id="titulo" class="text-xl font-semibold text-gray-600">
+        <h2 id="titulo" class="text-xl mx-auto  my-4 font-semibold text-gray-600">
           Agregar Nuevo Contacto
         </h2>
       </div>
 
       <form
-        class="flex flex-col space-y-4 bg-white rounded-xl shadow-lg p-6 mb-6 border border-gray-200"
+        class="flex flex-col space-y-4 bg-white rounded-xl shadow-lg p-6 mx-4 mb-6 border border-gray-200"
         id="contactForm"
       >
         <div class="flex flex-col items-center gap-2 relative p-5">
           <!-- Foto circular -->
           <div
             id="photoPreview"
-            class="w-30 h-30 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full text-white flex items-center justify-center text-4xl font-bold relative"
+            class="w-30 h-30  bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full text-white flex items-center justify-center text-4xl font-bold relative"
           >
-            <img id="foto" src="" alt="" class="rounded-full" />
+            <img
+              id="foto"
+              src=""
+              alt=""
+              class="rounded-full object-cover overflow-hidden max-h-full w-auto "
+            />
             <i id="photoIcon" class="fas fa-user text-white text-5xl"></i>
 
             <!-- Botón de + -->
@@ -220,9 +225,9 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
       if (name) name.value = actual.nombre || "";
       if (email) email.value = actual.correo || "";
       if (phone) phone.value = actual.phone || "";
- 
+
       if (photo && actual.imagen) {
-        titulo.textContent = "Editar Contacto"
+        titulo.textContent = "Editar Contacto";
         photo.src = actual.imagen;
         if (photoIcon?.classList.contains("fa-user")) {
           photoIcon.classList.remove("fa-user");
