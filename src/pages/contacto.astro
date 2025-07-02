@@ -8,36 +8,60 @@ import Notificacion from "../components/Notificacion.astro";
 
 <Layout>
   <MarcoMobile>
-    <section class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover flex flex-col relative p-4 gap-4">
+    <section class="w-full h-full overflow-y-auto scrollbar-hidden bg-white border-2 border-gray-300 rounded-3xl bg-cover flex flex-col relative p-4 gap-4">
       <!-- Notificación -->
-      <Notificacion color="bg-red-500" message="contacto eliminado correctamente"/>
+      <Notificacion color="bg-red-500" message="contacto eliminado correctamente" />
       <!-- Notificación -->
 
-      <!-- titulo -->
-      <div class="w-full flex items-center gap-2">
+      <!-- título y barra de búsqueda -->
+      <div class="w-full flex items-center gap-2 ">
         <Boton color="bg-red-500" icon="fas fa-arrow-left" link="/" />
-        <BarraBusqueda />
+        <BarraBusqueda>
       </div>
 
       <!-- Lista de Contacto -->
-      <div>
+      <div class="flex-1"> 
         <h2 class="text-2xl font-semibold text-center mb-4 mt-4">Contactos</h2>
-        <ul id="listaContactos" class="space-y-2 mt-4"></ul>
+        <ul id="listaContactos" class="space-y-2 mt-4">
+        </ul>
       </div>
 
       <!-- botón agregar -->
-      <Boton color="bg-green-500" icon="fas fa-plus" link="/agregarContacto" clasesExtra="shadow-xl shadow-gray-500 p-8 rounded-md absolute bottom-6 right-6" />
+      <div class="sticky bottom-2 self-end"> 
+        <Boton color="bg-green-500" icon="fas fa-plus" link="/agregarContacto" clasesExtra="shadow-xl shadow-gray-500 p-8 flex items-center justify-center rounded-md" />
+      </div>
     </section>
   </MarcoMobile>
 
   <script type="module">
     const listaContactos = document.getElementById("listaContactos");
+    const inputBusqueda = document.getElementById("inputBusqueda");
 
-    function mostrarContactos() {
+    function capitalizar(texto) {
+      return texto
+        .toLowerCase()
+        .split(/\s+/)
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+        .join(" ");
+    }
+
+    function mostrarContactos(filtro = "") {
       listaContactos.innerHTML = "";
       const contactos = JSON.parse(localStorage.getItem("contactosJSON")) || [];
 
-      contactos.forEach(contacto => {
+      const filtrados = contactos.filter(contacto => {
+        const textoCompleto = `${contacto.nombres} ${contacto.apellidos} ${contacto.email} ${contacto.telefono}`.toLowerCase();
+        return textoCompleto.includes(filtro.toLowerCase());
+      });
+
+      if (filtrados.length === 0) {
+        listaContactos.innerHTML = `
+          <li class="text-center text-gray-500">No se encontraron contactos</li>
+        `;
+        return;
+      }
+
+      filtrados.forEach(contacto => {
         const li = document.createElement("li");
         li.className = "p-4 bg-gray-200 rounded-lg shadow-xl flex items-center gap-4";
 
@@ -59,7 +83,6 @@ import Notificacion from "../components/Notificacion.astro";
             </div>
           </div>
         `;
-
         listaContactos.appendChild(li);
       });
     }
@@ -68,16 +91,8 @@ import Notificacion from "../components/Notificacion.astro";
       const contactos = JSON.parse(localStorage.getItem("contactosJSON")) || [];
       const nuevosContactos = contactos.filter(contacto => contacto.id !== id);
       localStorage.setItem("contactosJSON", JSON.stringify(nuevosContactos));
-      mostrarContactos();
+      mostrarContactos(inputBusqueda.value);
       mostrarNotificacion("Contacto eliminado exitosamente");
-    }
-
-    function capitalizar(texto) {
-      return texto
-        .toLowerCase()
-        .split(/\s+/)
-        .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
-        .join(' ');
     }
 
     function editarContactoPorId(id) {
@@ -101,7 +116,7 @@ import Notificacion from "../components/Notificacion.astro";
       };
 
       localStorage.setItem("contactosJSON", JSON.stringify(contactos));
-      mostrarContactos();
+      mostrarContactos(inputBusqueda.value);
       mostrarNotificacion("Contacto editado exitosamente");
     }
 
@@ -141,6 +156,21 @@ import Notificacion from "../components/Notificacion.astro";
       }
     });
 
+    inputBusqueda.addEventListener("input", () => {
+      const texto = inputBusqueda.value.trim();
+      mostrarContactos(texto);
+    });
+
     mostrarContactos();
   </script>
+
+  <style>
+    .scrollbar-hidden {
+      -ms-overflow-style: none; /* IE y Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+    .scrollbar-hidden::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+  </style>
 </Layout>
