@@ -16,7 +16,7 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
           icon="fas fa-arrow-left"
           link="/contacto"
         />
-        <h2 class="text-xl font-semibold text-gray-600">
+        <h2 id="titulo" class="text-xl font-semibold text-gray-600">
           Agregar Nuevo Contacto
         </h2>
       </div>
@@ -31,6 +31,7 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
             id="photoPreview"
             class="w-30 h-30 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full text-white flex items-center justify-center text-4xl font-bold relative"
           >
+            <img id="foto" src="" alt="" class="rounded-full" />
             <i id="photoIcon" class="fas fa-user text-white text-5xl"></i>
 
             <!-- Botón de + -->
@@ -160,7 +161,8 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
         event.preventDefault();
 
         mostrarNotificacion();
-
+        const actual = JSON.parse(localStorage.getItem("actual") || "{}");
+        
         const name = document.querySelector('input[name="name"]');
         const email = document.querySelector('input[name="email"]');
         const phone = document.querySelector('input[name="phone"]');
@@ -173,7 +175,7 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
               reader.onerror = reject;
               reader.readAsDataURL(file);
             })
-          : "";
+          : actual?.imagen || document.getElementById("foto")?.src || "";
 
         const data = {
           imagen: imagen,
@@ -181,19 +183,43 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
           correo: email.value,
           phone: phone.value,
         };
-        // Obtener el array actual (o uno vacío si no existe)
+
         const contactos = JSON.parse(localStorage.getItem("contactos")) || [];
 
-        // Agregar el nuevo contacto
-        contactos.push(data);
-
-        // Guardar la lista actualizada
+        if (typeof actual.index === "number") {
+          contactos[actual.index] = data;
+        } else {
+          contactos.push(data);
+        }
         localStorage.setItem("contactos", JSON.stringify(contactos));
 
         this.reset();
         photoIcon.style.display = "block";
         const oldImage = photoPreview.querySelector("img");
         if (oldImage) oldImage.remove();
+
+        localStorage.removeItem("actual");
       });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const actual = JSON.parse(localStorage.getItem("actual") || "{}");
+
+      const name = document.querySelector('input[name="name"]');
+      const email = document.querySelector('input[name="email"]');
+      const phone = document.querySelector('input[name="phone"]');
+      const photo = document.getElementById("foto");
+      const photoIcon = document.getElementById("photoIcon");
+
+      if (name) name.value = actual.nombre || "";
+      if (email) email.value = actual.correo || "";
+      if (phone) phone.value = actual.phone || "";
+
+      if (photo && actual.imagen) {
+        photo.src = actual.imagen;
+        if (photoIcon?.classList.contains("fa-user")) {
+          photoIcon.classList.remove("fa-user");
+        }
+      }
+    });
   </script>
 </Layout>

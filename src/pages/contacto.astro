@@ -47,11 +47,6 @@ import { contactos } from "../data/contactos";
 
       //pagina para editar
       const link2 = "/contactoAdd";
-      const icono2 = ""; //falta icono
-
-      //boton de eliminar falta implementar la accion
-
-      const icono3 = ""; //falta icono
 
       const li = document.createElement("li");
       li.className =
@@ -65,24 +60,25 @@ import { contactos } from "../data/contactos";
  <a
  data-index=${index}
   href=${link1}
-  class=" w-12 h-12  flex items-center justify-center rounded-full text-white transition shadow"
+  class=" w-12 h-12  flex items-center justify-center rounded-full  transition shadow"
 >
   <i class="${icono1}"></i>
 </a>
  <a
+ data-index=${index}
   href=${link2}
-  class=" w-12 h-12 flex items-center justify-center rounded-full text-white transition shadow"
+  class=" w-12 h-12 flex items-center justify-center rounded-full  transition shadow"
 >
-  <i class=${icono2}></i>
+  <i class="fas fa-pen"></i>
 </a>
  <button
-  class=" w-12 h-12 flex items-center justify-center rounded-full text-white transition shadow"
+  class=" w-12 h-12 flex items-center justify-center rounded-full transition shadow"
 >
-  <i class=${icono3}></i>
+  <i class="fas fa-trash"></i>
+
 </button>
 
         </div>
-      
       `;
 
       listaContenedor.appendChild(li);
@@ -102,6 +98,28 @@ import { contactos } from "../data/contactos";
           const desplegable = clickedHijo.querySelector(".desplegable");
           if (desplegable) {
             desplegable.classList.toggle("hidden");
+          }
+        }
+      });
+
+    document
+      .getElementById("contactList")
+      ?.addEventListener("click", (event) => {
+        const anchor = event.target.closest("a[data-index]");
+        if (anchor && anchor.closest(".hijo")) {
+          const index = anchor.dataset.index;
+
+          const contactos = JSON.parse(localStorage.getItem("contactos")) || [];
+
+          if (index >= 0 && index < contactos.length) {
+            const contacto = contactos[index];
+
+            const contactoConIndice = {...contacto,index: Number(index)};
+
+            localStorage.setItem("actual", JSON.stringify(contactoConIndice));
+            console.log("Contacto actual con índice:", contactoConIndice);
+          } else {
+            console.warn("Índice fuera de rango:", index);
           }
         }
       });
