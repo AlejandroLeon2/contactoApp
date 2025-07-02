@@ -180,7 +180,7 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
               reader.onerror = reject;
               reader.readAsDataURL(file);
             })
-          : actual?.imagen || document.getElementById("foto")?.src || "";
+          : actual?.imagen || "";
 
         const data = {
           imagen: imagen,
@@ -188,6 +188,7 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
           correo: email.value,
           phone: phone.value,
         };
+        console.log(data);
 
         const contactos = JSON.parse(localStorage.getItem("contactos")) || [];
 
@@ -214,12 +215,14 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
       const phone = document.querySelector('input[name="phone"]');
       const photo = document.getElementById("foto");
       const photoIcon = document.getElementById("photoIcon");
+      const titulo = document.getElementById("titulo");
 
       if (name) name.value = actual.nombre || "";
       if (email) email.value = actual.correo || "";
       if (phone) phone.value = actual.phone || "";
-
+ 
       if (photo && actual.imagen) {
+        titulo.textContent = "Editar Contacto"
         photo.src = actual.imagen;
         if (photoIcon?.classList.contains("fa-user")) {
           photoIcon.classList.remove("fa-user");
