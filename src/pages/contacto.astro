@@ -5,12 +5,13 @@ import Boton from "../components/dynamic/Boton.astro";
 import ListContacSection from "../components/section/ListContacSection.astro";
 //import { contactos } from "../data/contactos";
 import SearchBar from "../components/ui/SearchBar.astro";
+import Notificacion from "../components/dynamic/Notificacion.astro";
 ---
 
 <Layout>
   <MarcoMobile>
     <section
-      class="w-full h-full relative bg-white border-2 border-gray-300 rounded-3xl bg-cover items-center-safe"
+      class="w-full min-h-full relative bg-white border-2 border-gray-300 rounded-3xl bg-cover items-center-safe"
     >
       <div class="flex justify-center items-center gap-4 p-4">
         <Boton
@@ -32,6 +33,10 @@ import SearchBar from "../components/ui/SearchBar.astro";
         <ListContacSection data="{contactos}" />
       </div>
     </section>
+    <Notificacion
+      color="bg-red-500"
+      message="¡Contacto eliminado exitosamente!"
+    />
   </MarcoMobile>
   <script is:inline>
     const listaContenedor = document.getElementById("contactList");
@@ -92,7 +97,6 @@ import SearchBar from "../components/ui/SearchBar.astro";
         const boton = event.target.closest("button.eliminar");
 
         if (boton) {
-
           const li = boton.closest("li");
           const index = boton
             .closest(".desplegable")
@@ -103,7 +107,7 @@ import SearchBar from "../components/ui/SearchBar.astro";
           if (!isNaN(index) && index >= 0 && index < contactos.length) {
             contactos.splice(index, 1);
             localStorage.setItem("contactos", JSON.stringify(contactos));
-            console.log(`Contacto eliminado en el índice ${index}`);
+            mostrarNotificacion();
 
             li?.remove();
           }
@@ -124,6 +128,16 @@ import SearchBar from "../components/ui/SearchBar.astro";
           }
         }
       });
+    const notificacion = document.getElementById("notificacion");
+    function mostrarNotificacion() {
+      notificacion.classList.remove("opacity-0", "pointer-events-none");
+      notificacion.classList.add("opacity-100");
+
+      setTimeout(() => {
+        notificacion.classList.add("opacity-0", "pointer-events-none");
+        notificacion.classList.remove("opacity-100");
+      }, 3000);
+    }
 
     document
       .getElementById("contactList")
@@ -140,7 +154,7 @@ import SearchBar from "../components/ui/SearchBar.astro";
 
             localStorage.setItem("actual", JSON.stringify(contactoConIndice));
             console.log("Contacto actual con índice:", contactoConIndice);
-          } 
+          }
         }
       });
 
