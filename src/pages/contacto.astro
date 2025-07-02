@@ -1,23 +1,116 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import MarcoMobile from "../components/MarcoMobile.astro";
-
-import ListContacSection from "../components/section/ListContacSection.astro";
 import Boton from "../components/dynamic/Boton.astro";
-import ItemList from "../components/ui/ItemList.astro";
+import ListContacSection from "../components/section/ListContacSection.astro";
+import { contactos } from "../data/contactos";
 ---
 
 <Layout>
   <MarcoMobile>
     <section
-      class="w-full h-full bg-white border-2  border-gray-300 rounded-3xl bg-cover flex justify-center items-center-safe"
+      class="w-full h-full relative bg-white border-2 border-gray-300 rounded-3xl bg-cover items-center-safe"
     >
-      <Boton color="bg-green-500" icon="fas fa-plus" link="/contactoAdd" />
-      <Boton
-        color="bg-red-500"
-        icon="fas fa-arrow-left"
-        link="http://localhost:4321"
-      />
+      <div class="flex justify-center items-center gap-4 p-4">
+        <Boton
+          color="bg-green-500 absolute bottom-15 right-4"
+          icon="fas fa-plus"
+          link="/contactoAdd"
+        />
+        <Boton
+          color="bg-red-500 absolute top-1 left-5  "
+          icon="fas fa-arrow-left"
+          link="http://localhost:4321"
+        />
+      </div>
+
+      <div class="min-h-screen p-5 justify-around">
+        <h1 class="text-2xl font-bold mb-4">Teléfono</h1>
+
+        <ListContacSection data="{contactos}" />
+      </div>
     </section>
   </MarcoMobile>
+  <script is:inline>
+    const listaContenedor = document.getElementById("contactList");
+
+    function crearContactoCard(contacto, index) {
+      const fotoFinal =
+        contacto.imagen && contacto.imagen.trim() !== ""
+          ? contacto.imagen
+          : "https://cdn-icons-png.flaticon.com/512/6522/6522581.png";
+
+      const nombreFinal = contacto.nombre || "Sin Nombre";
+      //pagina para ver info
+      const link1 = "/contactoViwe";
+      const icono1 = "fas fa-eye";
+
+      //pagina para editar
+      const link2 = "/contactoAdd";
+      const icono2 = ""; //falta icono
+
+      //boton de eliminar falta implementar la accion
+
+      const icono3 = ""; //falta icono
+
+      const li = document.createElement("li");
+      li.className =
+        "flex flex-col w-full hijo min-h-15 group shadow bg-white rounded-2xl ";
+      li.innerHTML = `
+      <div class=" flex items-center gap-4  w-full">
+      <img src=${fotoFinal} alt=${nombreFinal} class="rounded-full h-15 p-1" />
+      <p class="w-full text-xl">${nombreFinal}</p>
+      </div>
+        <div class="hidden text-black desplegable p-4  flex justify-around items-center h-15 w-full">
+ <a
+ data-index=${index}
+  href=${link1}
+  class=" w-12 h-12  flex items-center justify-center rounded-full text-white transition shadow"
+>
+  <i class="${icono1}"></i>
+</a>
+ <a
+  href=${link2}
+  class=" w-12 h-12 flex items-center justify-center rounded-full text-white transition shadow"
+>
+  <i class=${icono2}></i>
+</a>
+ <button
+  class=" w-12 h-12 flex items-center justify-center rounded-full text-white transition shadow"
+>
+  <i class=${icono3}></i>
+</button>
+
+        </div>
+      
+      `;
+
+      listaContenedor.appendChild(li);
+    }
+
+    document
+      .getElementById("contactList")
+      ?.addEventListener("click", (event) => {
+        // Verifica si el clic fue dentro de un elemento con clase hijo
+        const clickedHijo = event.target.closest(".hijo");
+
+        if (
+          clickedHijo &&
+          document.getElementById("contactList")?.contains(clickedHijo)
+        ) {
+          // Busca el div.desplegable hijo dentro de ese .hijo
+          const desplegable = clickedHijo.querySelector(".desplegable");
+          if (desplegable) {
+            desplegable.classList.toggle("hidden");
+          }
+        }
+      });
+
+    const contactosGuardados =
+      JSON.parse(localStorage.getItem("contactos")) || [];
+    console.log("CARGADOS:", contactosGuardados);
+    contactosGuardados.forEach((contacto, index) => {
+      crearContactoCard(contacto, index);
+    });
+  </script>
 </Layout>
