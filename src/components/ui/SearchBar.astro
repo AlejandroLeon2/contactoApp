@@ -1,0 +1,23 @@
+
+<input
+  id="buscador"
+  type="text"
+  placeholder="Buscar contacto..."
+  class="w-80 mx-5 py-2 mt-8 mb-4 px-4 border rounded"
+/>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("buscador");
+    const elementos = document.querySelectorAll("#contactList .contacto");
+
+    input.addEventListener("input", () => {
+      const filtro = input.value.toLowerCase();
+
+      elementos.forEach((el) => {
+        const texto = el.textContent.toLowerCase();
+        el.classList.toggle("hidden", !texto.includes(filtro));
+      });
+    });
+  });
+</script>
