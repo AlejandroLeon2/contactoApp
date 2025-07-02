@@ -7,137 +7,193 @@ import Notificacion from "../components/dynamic/Notificacion.astro";
 
 <Layout>
   <MarcoMobile>
-    <section class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover p-6 flex flex-col ">
-      
+    <section
+      class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover p-6 flex flex-col"
+    >
       <div class="flex items-center gap-4 mb-4">
-        <Boton color="bg-red-500 w-5 h-5 text-sm" icon="fas fa-arrow-left" link="/contacto" />
-        <h2 class="text-xl font-semibold text-gray-600">Agregar Nuevo Contacto</h2>
+        <Boton
+          color="bg-red-500 w-5 h-5 text-sm"
+          icon="fas fa-arrow-left"
+          link="/contacto"
+        />
+        <h2 class="text-xl font-semibold text-gray-600">
+          Agregar Nuevo Contacto
+        </h2>
       </div>
 
-     
-      <form class="flex flex-col space-y-4 bg-white rounded-xl shadow-lg p-6 mb-6 border border-gray-200" id="contactForm">
-        
-
-     
+      <form
+        class="flex flex-col space-y-4 bg-white rounded-xl shadow-lg p-6 mb-6 border border-gray-200"
+        id="contactForm"
+      >
         <div class="flex flex-col items-center gap-2 relative p-5">
           <!-- Foto circular -->
-          <div id="photoPreview" class="w-30 h-30 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full text-white flex items-center justify-center text-4xl font-bold relative">
-            <i  id="photoIcon" class="fas fa-user text-white text-5xl"></i>
-
+          <div
+            id="photoPreview"
+            class="w-30 h-30 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full text-white flex items-center justify-center text-4xl font-bold relative"
+          >
+            <i id="photoIcon" class="fas fa-user text-white text-5xl"></i>
 
             <!-- Botón de + -->
-            <label id="addPhotoBtn"  for="photo" class="absolute bottom-0 right-0 w-7 h-7 bg-green-500 text-white text-base flex items-center justify-center rounded-full cursor-pointer hover:scale-110 transition">
+            <label
+              id="addPhotoBtn"
+              for="photo"
+              class="absolute bottom-0 right-0 w-7 h-7 bg-green-500 text-white text-base flex items-center justify-center rounded-full cursor-pointer hover:scale-110 transition"
+            >
               +
             </label>
           </div>
           <!-- Botón oculto para subir imagen -->
-          <input type="file" name="photo" id="photo" accept="image/*" class="hidden">
+          <input
+            type="file"
+            name="photo"
+            id="photo"
+            accept="image/*"
+            class="hidden"
+          />
         </div>
-
-
-        
 
         <!-- Form -->
-        
+
         <div class="relative">
-          <i class="fas fa-user absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"></i>
-          <input type="text" name="name"placeholder="Nombre completo" required class="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-blue-500 focus:ring-2 transition-colors">
+          <i
+            class="fas fa-user absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
+          ></i>
+          <input
+            type="text"
+            name="name"
+            placeholder="Nombre completo"
+            required
+            class="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-blue-500 focus:ring-2 transition-colors"
+          />
         </div>
 
-        
         <div class="relative">
-          <i class="fas fa-envelope absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"></i>
-          <input type="email" name="email" placeholder="Correo electrónico" required class="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-blue-500 focus:ring-2 transition-colors">
+          <i
+            class="fas fa-envelope absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
+          ></i>
+          <input
+            type="email"
+            name="email"
+            placeholder="Correo electrónico"
+            required
+            class="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-blue-500 focus:ring-2 transition-colors"
+          />
         </div>
 
-       
         <div class="relative">
-          <i class="fas fa-phone absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"></i>
-          <input type="tel" name="phone" placeholder="Número telefónico" required class="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-blue-500 focus:ring-2 transition-colors">
+          <i
+            class="fas fa-phone absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
+          ></i>
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Número telefónico"
+            required
+            class="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-blue-500 focus:ring-2 transition-colors"
+          />
         </div>
-        
-        
 
         <!-- Botones -->
         <div class="flex justify-between gap-2 pt-18">
-          <a href="/contacto" class="flex-1 bg-gray-500 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors text-center">Cancelar</a>
-          <button type="submit" class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-500 transition-colors">Guardar</button>
-          
+          <a
+            href="/contacto"
+            class="flex-1 bg-gray-500 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors text-center"
+            >Cancelar</a
+          >
+          <button
+            type="submit"
+            class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-500 transition-colors"
+            >Guardar</button
+          >
         </div>
-
       </form>
-
     </section>
-
   </MarcoMobile>
 
- <Notificacion color="bg-green-500" message="¡Contacto guardado exitosamente!" />
+  <Notificacion
+    color="bg-green-500"
+    message="¡Contacto guardado exitosamente!"
+  />
 
+  <script is:inline>
+    const photoInput = document.getElementById("photo");
+    const photoPreview = document.getElementById("photoPreview");
+    const photoIcon = document.getElementById("photoIcon");
+    const addPhotoBtn = document.getElementById("addPhotoBtn");
+    const notificacion = document.getElementById("notificacion");
 
+    // Mostrar imagen al seleccionar archivo
+    photoInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
 
+      const reader = new FileReader();
+      reader.onload = () => {
+        photoIcon.style.display = "none";
+        const oldImage = photoPreview.querySelector("img");
+        if (oldImage) oldImage.remove();
 
- <script is:inline>
-  const photoInput = document.getElementById("photo");
-  const photoPreview = document.getElementById("photoPreview");
-  const photoIcon = document.getElementById("photoIcon");
-  const addPhotoBtn = document.getElementById("addPhotoBtn");
-  const notificacion = document.getElementById("notificacion");
-
-  const name = document.getElementById("name");
-  const email = document.getElementById("email");
-  const phone = document.getElementById("phone");
-
-
-  // Mostrar imagen al seleccionar archivo
-  photoInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      photoIcon.style.display = "none";
-      const oldImage = photoPreview.querySelector("img");
-      if (oldImage) oldImage.remove();
-
-      const img = document.createElement("img");
-      img.src = reader.result;
-      img.alt = "photo";
-      img.className = "absolute inset-0 w-full h-full object-cover rounded-full z-0";
-      photoPreview.insertBefore(img, addPhotoBtn);
-    };
-    reader.readAsDataURL(file);
-  });
-
+        const img = document.createElement("img");
+        img.src = reader.result;
+        img.alt = "photo";
+        img.className =
+          "absolute inset-0 w-full h-full object-cover rounded-full z-0";
+        photoPreview.insertBefore(img, addPhotoBtn);
+      };
+      reader.readAsDataURL(file);
+    });
 
     // Mostrar notificación fija
-  function mostrarNotificacion() {
-    notificacion.classList.remove("opacity-0", "pointer-events-none");
-    notificacion.classList.add("opacity-100");
+    function mostrarNotificacion() {
+      notificacion.classList.remove("opacity-0", "pointer-events-none");
+      notificacion.classList.add("opacity-100");
 
-    setTimeout(() => {
-      notificacion.classList.add("opacity-0", "pointer-events-none");
-      notificacion.classList.remove("opacity-100");
-    }, 3000);
-  }
+      setTimeout(() => {
+        notificacion.classList.add("opacity-0", "pointer-events-none");
+        notificacion.classList.remove("opacity-100");
+      }, 3000);
+    }
 
-  document.getElementById("contactForm").addEventListener("submit", function (event) {
-    event.preventDefault();
+    document
+      .getElementById("contactForm")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-    mostrarNotificacion();
+        mostrarNotificacion();
 
-    this.reset();
-    photoIcon.style.display = "block";
-    const oldImage = photoPreview.querySelector("img");
-    if (oldImage) oldImage.remove();
+        const name = document.querySelector('input[name="name"]');
+        const email = document.querySelector('input[name="email"]');
+        const phone = document.querySelector('input[name="phone"]');
+        const photo = document.querySelector('input[name="photo"]');
+        const file = photo.files[0];
+        const imagen = file
+          ? await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = reject;
+              reader.readAsDataURL(file);
+            })
+          : "";
 
-    const nuevoContacto = { name: name.value, email: email.value, phone: phone.value, photo: photoIcon.style.display === "none" ? photoPreview.querySelector("img").src : ""  };
+        const data = {
+          imagen: imagen,
+          nombre: name.value,
+          correo: email.value,
+          phone: phone.value,
+        };
+        // Obtener el array actual (o uno vacío si no existe)
+        const contactos = JSON.parse(localStorage.getItem("contactos")) || [];
 
-    const contactos = JSON.parse(localStorage.getItem("contactos")) || [];
-    contactos.push(nuevoContacto);
-    localStorage.setItem("contactos", JSON.stringify(contactos));
-  });
-</script>
+        // Agregar el nuevo contacto
+        contactos.push(data);
 
+        // Guardar la lista actualizada
+        localStorage.setItem("contactos", JSON.stringify(contactos));
+
+        this.reset();
+        photoIcon.style.display = "block";
+        const oldImage = photoPreview.querySelector("img");
+        if (oldImage) oldImage.remove();
+      });
+  </script>
 </Layout>
-
-<></>

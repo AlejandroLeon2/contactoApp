@@ -2,68 +2,115 @@
 import Layout from "../layouts/Layout.astro";
 import MarcoMobile from "../components/MarcoMobile.astro";
 import Boton from "../components/dynamic/Boton.astro";
+import ListContacSection from "../components/section/ListContacSection.astro";
+import { contactos } from "../data/contactos";
 ---
 
 <Layout>
   <MarcoMobile>
-    <section class="w-full h-full bg-white border-2 border-gray-300 rounded-3xl bg-cover items-center-safe">
+    <section
+      class="w-full h-full relative bg-white border-2 border-gray-300 rounded-3xl bg-cover items-center-safe"
+    >
       <div class="flex justify-center items-center gap-4 p-4">
-        <Boton color="bg-green-500" icon="fas fa-plus" link="/contactoAdd" />
-        <Boton color="bg-red-500" icon="fas fa-arrow-left" link="http://localhost:4321"/>
+        <Boton
+          color="bg-green-500 absolute bottom-15 right-4"
+          icon="fas fa-plus"
+          link="/contactoAdd"
+        />
+        <Boton
+          color="bg-red-500 absolute top-1 left-5  "
+          icon="fas fa-arrow-left"
+          link="http://localhost:4321"
+        />
       </div>
 
-      <div class="min-h-screen p-4">
+      <div class="min-h-screen p-5 justify-around">
         <h1 class="text-2xl font-bold mb-4">Teléfono</h1>
 
-        <!-- Lista de contactos -->
-        <div id="contactList" class="space-y-2 overflow-y-auto max-h-[calc(100vh-150px)]">
-          <!-- Los contactos se insertarán dinámicamente con JS -->
-        </div>
+        <ListContacSection data="{contactos}" />
       </div>
     </section>
   </MarcoMobile>
+  <script is:inline>
+    const listaContenedor = document.getElementById("contactList");
 
-  <!-- Script para insertar contactos desde localStorage -->
-<script>
-  const listaContenedor = document.getElementById("contactList");
+    function crearContactoCard(contacto, index) {
+      const fotoFinal =
+        contacto.imagen && contacto.imagen.trim() !== ""
+          ? contacto.imagen
+          : "https://cdn-icons-png.flaticon.com/512/6522/6522581.png";
 
-  function crearContactoCard(contacto) {
-    // Si no hay foto, usar avatar por defecto
-    const fotoFinal = contacto.photo && contacto.photo.trim() !== ""
-      ? contacto.photo
-      : "https://cdn-icons-png.flaticon.com/512/6522/6522581.png";
+      const nombreFinal = contacto.nombre || "Sin Nombre";
+      //pagina para ver info
+      const link1 = "/contactoViwe";
+      const icono1 = "fas fa-eye";
 
-    const nombreFinal = contacto.name || "Sin Nombre";
+      //pagina para editar
+      const link2 = "/contactoAdd";
+      const icono2 = ""; //falta icono
 
-    const div = document.createElement("div");
-    div.className = "flex items-center justify-between bg-gray-100 rounded-lg p-3";
+      //boton de eliminar falta implementar la accion
 
-    div.innerHTML = `
-      <div class="flex items-center space-x-3">
-        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-400 text-white text-lg font-bold overflow-hidden">
-          <img src="${fotoFinal}" class="w-full h-full object-cover rounded-full" alt="Foto de ${nombreFinal}" />
+      const icono3 = ""; //falta icono
+
+      const li = document.createElement("li");
+      li.className =
+        "flex flex-col w-full hijo min-h-15 group shadow bg-white rounded-2xl ";
+      li.innerHTML = `
+      <div class=" flex items-center gap-4  w-full">
+      <img src=${fotoFinal} alt=${nombreFinal} class="rounded-full h-15 p-1" />
+      <p class="w-full text-xl">${nombreFinal}</p>
+      </div>
+        <div class="hidden text-black desplegable p-4  flex justify-around items-center h-15 w-full">
+ <a
+ data-index=${index}
+  href=${link1}
+  class=" w-12 h-12  flex items-center justify-center rounded-full text-white transition shadow"
+>
+  <i class="${icono1}"></i>
+</a>
+ <a
+  href=${link2}
+  class=" w-12 h-12 flex items-center justify-center rounded-full text-white transition shadow"
+>
+  <i class=${icono2}></i>
+</a>
+ <button
+  class=" w-12 h-12 flex items-center justify-center rounded-full text-white transition shadow"
+>
+  <i class=${icono3}></i>
+</button>
+
         </div>
-        <span class="text-base">${nombreFinal}</span>
-      </div>
-      <div class="flex space-x-2">
-        <button class="p-2 rounded-full hover:bg-gray-800">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6-6 3.536 3.536-6 6H9v-3.536z" />
-          </svg>
-        </button>
-        <button class="p-2 rounded-full hover:bg-gray-800">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4m-4 0a1 1 0 00-1 1v1h6V4a1 1 0 00-1-1m-4 0h4" />
-          </svg>
-        </button>
-      </div>
-    `;
+      
+      `;
 
-    listaContenedor.appendChild(div);
-  }
+      listaContenedor.appendChild(li);
+    }
 
-  const contactosGuardados = JSON.parse(localStorage.getItem("contactos")) || [];
-  console.log("CARGADOS:", contactosGuardados);
-  contactosGuardados.forEach(crearContactoCard);
-</script>
+    document
+      .getElementById("contactList")
+      ?.addEventListener("click", (event) => {
+        // Verifica si el clic fue dentro de un elemento con clase hijo
+        const clickedHijo = event.target.closest(".hijo");
+
+        if (
+          clickedHijo &&
+          document.getElementById("contactList")?.contains(clickedHijo)
+        ) {
+          // Busca el div.desplegable hijo dentro de ese .hijo
+          const desplegable = clickedHijo.querySelector(".desplegable");
+          if (desplegable) {
+            desplegable.classList.toggle("hidden");
+          }
+        }
+      });
+
+    const contactosGuardados =
+      JSON.parse(localStorage.getItem("contactos")) || [];
+    console.log("CARGADOS:", contactosGuardados);
+    contactosGuardados.forEach((contacto, index) => {
+      crearContactoCard(contacto, index);
+    });
+  </script>
 </Layout>

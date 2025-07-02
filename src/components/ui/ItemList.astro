@@ -1,0 +1,15 @@
+---
+const { data, indice } = Astro.props;
+---
+
+<li
+  class="flex w-full hijo gap-4 h-15 group shadow bg-white rounded-2xl items-center"
+  data-index={indice}
+>
+  <img src={data.imagen} alt={data.nombre} class="rounded-full h-full p-1" />
+  <p class="w-full text-xl">{data.nombre}</p>
+  <div class="hidden desplegable  flex justify-center items-center h-15 w-full">
+
+  </div>
+</li>
+
